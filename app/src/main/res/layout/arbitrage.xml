@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.PlaceholderFragment">
+    >
 
     <TextView
         android:id="@+id/section_label"
@@ -21,12 +21,12 @@
         app:layout_constraintTop_toTopOf="@+id/constraintLayout" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView_arb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="arbitrage"
+        android:text="@string/arb_str"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

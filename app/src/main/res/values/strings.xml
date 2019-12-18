@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Криптомонитор</string>
     <string name="tab_text_1">Котировки</string>
+    <string name="cost_str">Котировки</string>
     <string name="tab_text_2">Арбитраж</string>
+    <string name="arb_str">Арбитраж</string>
+    <string name="updating">\tОбновление</string>
 </resources>
