@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Криптомонитор</string>
+    <string name="tab_text_1">Котировки</string>
+    <string name="tab_text_2">Арбитраж</string>
+</resources>
