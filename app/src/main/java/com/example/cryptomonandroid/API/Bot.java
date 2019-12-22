@@ -1,7 +1,7 @@
 package com.example.cryptomonandroid.API;
 import android.util.Pair;
 
-import com.google.firebase.encoders.json.*;
+
 import java.util.*;
 
 public abstract class Bot {
