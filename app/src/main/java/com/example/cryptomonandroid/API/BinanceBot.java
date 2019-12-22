@@ -16,6 +16,8 @@ public class BinanceBot extends Bot {
     public BinanceBot(){
         BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance("API-KEY", "SECRET");
         BinanceApiRestClient client = factory.newRestClient();
+        long serverTime = client.getServerTime();
+        System.out.println(serverTime);
     }
 
     @Override

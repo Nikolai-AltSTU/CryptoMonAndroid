@@ -18,6 +18,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
+
+import com.example.cryptomonandroid.API.BinanceBot;
 import com.example.cryptomonandroid.API.Bot;
 import com.example.cryptomonandroid.API.ExmoBot;
 
@@ -29,6 +31,8 @@ public class Costs extends GridPade {
 
     public Costs(){
         bots.add(new ExmoBot());
+        bots.add(new BinanceBot());
+
         bots.get(0).reload_data(50);
     }
 
