@@ -137,6 +137,6 @@ public class ExmoBot extends Bot {
 
     @Override
     public void reload_data(int depth) {
-        get_order_books(depth);
+        //get_order_books(depth);
     }
 }

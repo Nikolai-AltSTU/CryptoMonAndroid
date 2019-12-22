@@ -11,7 +11,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import okhttp3.*;
 
-
 public class Exmo {
     private static long _nonce;
     private String _key;
@@ -81,13 +80,8 @@ public class Exmo {
         // Now do the actual request
         MediaType form = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
-        OkHttpClient client = null;
-        try {
-            client = new OkHttpClient();
-        }
-        catch (Exception e){
-            //ignore
-        }
+        OkHttpClient client = new OkHttpClient();
+
         try {
 
             RequestBody body = RequestBody.create(form, postData);
