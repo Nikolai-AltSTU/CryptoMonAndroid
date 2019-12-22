@@ -1,17 +1,15 @@
 package com.example.cryptomonandroid.API;
 import android.util.Pair;
 
-
 import java.util.*;
 
 public abstract class Bot {
 
-    protected HashMap<String, String> tradeableCoins;
-    protected HashMap<String, String> dictionary_of_pairs_name;
+    protected HashMap<Pair<String, String>, String> dictionary_of_pairs_name;
     protected HashMap<Pair<String, String>, String>  tradeable_coins;
     public Bot()
     {
-        dictionary_of_pairs_name = new HashMap<String, String>();
+        dictionary_of_pairs_name = new HashMap<Pair<String, String>, String>();
         pair_dic = new HashMap<String, PairData>();
         tradeable_coins = new HashMap<Pair<String, String> , String>();
     }
@@ -45,7 +43,7 @@ public abstract class Bot {
 
     public abstract void reload_data(int depth);
 
-    public final PairData get_pair_info(Pair<String, String> pair)
+    public PairData get_pair_info( Pair<String, String> pair )
     {
         try
         {

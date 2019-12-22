@@ -18,9 +18,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
+import com.example.cryptomonandroid.API.Bot;
+import com.example.cryptomonandroid.API.ExmoBot;
+
 
 
 public class Costs extends GridPade {
+
+    private Vector<Bot> bots = new Vector<Bot>();
+
+    public Costs(){
+        bots.add(new ExmoBot());
+        bots.get(0).reload_data(50);
+    }
 
     @Override
     public View onCreateView(
