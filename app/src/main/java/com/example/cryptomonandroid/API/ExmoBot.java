@@ -56,6 +56,12 @@ public class ExmoBot extends Bot {
         request_line.put("pair", "BTC_USD");
         request_line.put("limit", "50");
 
+        // тут вылетит
+        //String answer = bot.Request("order_book", request_line);
+
+
+
+
        /* for (String s : dictionary_of_pairs_name.values())
         {
             request_line.put("pair", request_line.get("pair") + s + ',');
@@ -65,7 +71,7 @@ public class ExmoBot extends Bot {
 
         //JSONObject order_book = new JSONObject();
 
-        String answer = bot.Request("order_book", request_line);
+        // String answer = bot.Request("order_book", request_line);
 
         /*
         for (String p : dictionary_of_pairs_name.values())
@@ -137,6 +143,6 @@ public class ExmoBot extends Bot {
 
     @Override
     public void reload_data(int depth) {
-        //get_order_books(depth);
+        get_order_books(depth);
     }
 }

@@ -14,10 +14,13 @@ public class BinanceBot extends Bot {
     BinanceApiRestClient client;
 
     public BinanceBot(){
+        // пробный запрос времени сервера
         BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance("API-KEY", "SECRET");
         BinanceApiRestClient client = factory.newRestClient();
-        long serverTime = client.getServerTime();
-        System.out.println(serverTime);
+
+        // тут вылетит
+        //long serverTime = client.getServerTime();
+        // System.out.println(serverTime);
     }
 
     @Override
