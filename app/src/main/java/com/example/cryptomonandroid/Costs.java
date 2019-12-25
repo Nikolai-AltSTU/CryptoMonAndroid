@@ -31,7 +31,7 @@ public class Costs extends GridPade {
 
     public Costs(){
         bots.add(new ExmoBot());
-        bots.add(new BinanceBot());
+        //bots.add(new BinanceBot());
 
         bots.get(0).reload_data(50);
     }

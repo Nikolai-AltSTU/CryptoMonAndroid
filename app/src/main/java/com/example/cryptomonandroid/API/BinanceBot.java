@@ -7,6 +7,8 @@ import com.binance.api.client.BinanceApiClientFactory;
 import com.binance.api.client.BinanceApiRestClient;
 import com.binance.api.client.*;
 
+import java.util.HashMap;
+
 
 public class BinanceBot extends Bot {
 
@@ -29,5 +31,13 @@ public class BinanceBot extends Bot {
     @Override
     public void reload_data(int depth) {
 
+    }
+
+    @Override
+    protected void get_order_books(int depth) {
+
+        HashMap<String, String> request_line = new HashMap<String, String>();
+        request_line.put("pair", "BTC_USD");
+        request_line.put("limit", "50");
     }
 }

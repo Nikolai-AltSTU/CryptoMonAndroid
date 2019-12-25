@@ -30,4 +30,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-encoders-json:16.0.0'
     implementation 'com.google.android.material:material:1.2.0-alpha02'
     implementation "com.squareup.okhttp3:okhttp:${okhttp}"
+    implementation 'com.google.code.gson:gson:2.8.6'
 }

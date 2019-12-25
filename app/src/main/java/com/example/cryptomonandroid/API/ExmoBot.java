@@ -1,8 +1,15 @@
 package com.example.cryptomonandroid.API;
 
+
+import android.annotation.SuppressLint;
 import android.util.Pair;
+import java.util.ArrayList;
 import java.util.HashMap;
+
 import com.example.cryptomonandroid.API.exmo.Exmo;
+
+import org.json.JSONObject;
+import com.google.gson.*;
 
 public class ExmoBot extends Bot {
 
@@ -49,25 +56,28 @@ public class ExmoBot extends Bot {
         return "don't exist";
     }
 
-    private void get_order_books(int depth)
+    @Override
+    protected void get_order_books(int depth)
     {
-
         HashMap<String, String> request_line = new HashMap<String, String>();
-        request_line.put("pair", "BTC_USD");
-        request_line.put("limit", "50");
+        //request_line.put("pair", "BTC_USD");
 
-       /* for (String s : dictionary_of_pairs_name.values())
+
+
+        for (String s : dictionary_of_pairs_name.values())
         {
             request_line.put("pair", request_line.get("pair") + s + ',');
         }
-        */
-        //request_line.put("limit", String.valueOf(depth));
 
-        //JSONObject order_book = new JSONObject();
+        request_line.put("limit", String.valueOf(depth));
+
+
+        JSONParser parser = new JSONParser();
+        JSONObject json = (JSONObject) parser.parse(stringToParse);
 
         String answer = bot.Request("order_book", request_line);
+        JSONObject order_book = bot.Request("order_book", request_line);
 
-        /*
         for (String p : dictionary_of_pairs_name.values())
         {
             try
@@ -76,7 +86,7 @@ public class ExmoBot extends Bot {
                 {
                     pair_dic.put(p, new PairData());
                 }
-                /*
+
                 ArrayList<Object> ask = order_book[p]["ask"].ToList();
                 ArrayList<Object> bid = order_book[p]["bid"].ToList();
 
@@ -86,7 +96,7 @@ public class ExmoBot extends Bot {
                     Pair<Double, Double> asks = new Pair<Double, Double>(0.0, 0.0);
 //C# TO JAVA CONVERTER TODO TASK: Tuple variables are not converted by C# to Java Converter:
                     Pair<Double, Double> bids = new Pair<Double, Double>(0.0, 0.0);
-                    /*
+
                     ArrayList<Object> a = ask.get(i).ToList();
                     ArrayList<Object> b = bid.get(i).ToList();
 
@@ -127,7 +137,7 @@ public class ExmoBot extends Bot {
             {
                 System.out.println("Exmo order book" + e);
             }
-        }*/
+        }
     }
 
     public void reload_data()
@@ -135,8 +145,17 @@ public class ExmoBot extends Bot {
         reload_data(50);
     }
 
+    @SuppressLint("HandlerLeak")
     @Override
-    public void reload_data(int depth) {
-        //get_order_books(depth);
+    public void reload_data(final int depth) {
+
+        Thread th =  new Thread(
+                new Runnable() {
+                    public void run() {
+                        get_order_books(depth);
+                    }
+                }
+        );
+        th.start();
     }
 }

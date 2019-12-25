@@ -1,9 +1,12 @@
 package com.example.cryptomonandroid.API;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Pair;
 
 import java.util.*;
 
 public abstract class Bot {
+
 
     protected HashMap<Pair<String, String>, String> dictionary_of_pairs_name;
     protected HashMap<Pair<String, String>, String>  tradeable_coins;
@@ -41,7 +44,9 @@ public abstract class Bot {
         }
     }
 
+
     public abstract void reload_data(int depth);
+    protected abstract void get_order_books(int depth);
 
     public PairData get_pair_info( Pair<String, String> pair )
     {
