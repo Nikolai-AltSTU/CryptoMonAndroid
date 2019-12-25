@@ -1,6 +1,7 @@
 package com.example.cryptomonandroid;
 
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +28,22 @@ import com.example.cryptomonandroid.API.ExmoBot;
 
 public class Costs extends GridPade {
 
-    private Vector<Bot> bots = new Vector<Bot>();
+    protected Vector<Bot> bots = new Vector<Bot>();
+    public Vector<Pair<String, String>> pairs;
 
     public Costs(){
         bots.add(new ExmoBot());
-        //bots.add(new BinanceBot());
+        bots.add(new BinanceBot());
+        pairs = new Vector<>();
 
-        bots.get(0).reload_data(50);
+    }
+
+    public void reload_data(){
+        pairs.add(new Pair<String, String>("BTC", "USD"));
+        for(Bot bot: bots){
+            bot.setPairs(pairs);
+            bot.reload_data(50);
+        }
     }
 
     @Override

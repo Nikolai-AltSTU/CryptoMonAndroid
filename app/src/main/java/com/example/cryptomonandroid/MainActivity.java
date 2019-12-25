@@ -31,8 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void ButtonClick(View view){
         flag = flag ^ true;
-        if(flag)
-            ((Costs)  sectionsPagerAdapter.getItem(0)).show_content();
+        if(flag) {
+            ((Costs) sectionsPagerAdapter.getItem(0)).show_content();
+            ((Costs) sectionsPagerAdapter.getItem(0)).reload_data();
+        }
     }
 
 }

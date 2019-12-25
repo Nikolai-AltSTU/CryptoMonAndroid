@@ -1,15 +1,10 @@
 package com.example.cryptomonandroid.API;
 
-
-import android.annotation.SuppressLint;
 import android.util.Pair;
-import java.util.ArrayList;
 import java.util.HashMap;
-
 import com.example.cryptomonandroid.API.exmo.Exmo;
+import org.json.*;
 
-import org.json.JSONObject;
-import com.google.gson.*;
 
 public class ExmoBot extends Bot {
 
@@ -21,9 +16,12 @@ public class ExmoBot extends Bot {
             "LSK", "XEM", "SMART", "QTUM", "HB", "DAI", "MKR", "MNC", "PTI", "ATMCASH", "ETZ", "USDC",
             "ROOBEE", "DCR", "XTZ", "ZAG", "BTT", "VLX"};
 
-
     public ExmoBot(){
         bot = new Exmo(" ", " ");
+        this.Name = "Exmo";
+
+        tradeable_coins = (HashMap<Pair<String, String>, String>) dictionary_of_pairs_name.clone();
+
     }
 
     private boolean in_coins(String s){
@@ -57,79 +55,51 @@ public class ExmoBot extends Bot {
     }
 
     @Override
-    protected void get_order_books(int depth)
-    {
+    protected void get_order_books(int depth) throws JSONException {
         HashMap<String, String> request_line = new HashMap<String, String>();
-        //request_line.put("pair", "BTC_USD");
+        request_line.put("pair", "");
 
-
-
-        for (String s : dictionary_of_pairs_name.values())
+        for (String s : tradeable_coins.values())
         {
             request_line.put("pair", request_line.get("pair") + s + ',');
         }
 
         request_line.put("limit", String.valueOf(depth));
-
-
-        JSONParser parser = new JSONParser();
-        JSONObject json = (JSONObject) parser.parse(stringToParse);
-
         String answer = bot.Request("order_book", request_line);
-        JSONObject order_book = bot.Request("order_book", request_line);
+        JSONObject order_book = null;
 
-        for (String p : dictionary_of_pairs_name.values())
+        try {
+            order_book = new JSONObject(answer);
+        }
+        catch (JSONException je){
+            System.out.print(je.toString());
+        }
+        for (String p : tradeable_coins.values())
         {
             try
             {
-                if (!pair_dic.containsKey(p))
+                if (!pairs_data.containsKey(p))
                 {
-                    pair_dic.put(p, new PairData());
+                    pairs_data.put(p, new PairData());
                 }
+                JSONObject pair_json = order_book.getJSONObject(p);
 
-                ArrayList<Object> ask = order_book[p]["ask"].ToList();
-                ArrayList<Object> bid = order_book[p]["bid"].ToList();
+                JSONArray asks_json = pair_json.getJSONArray("ask");
+                JSONArray bids_json = pair_json.getJSONArray("bid");
+
+
+                pairs_data.get(p). Asks.clear();
+                pairs_data.get(p). Bids.clear();
 
                 for (int i = 0; i < depth; i++)
                 {
-//C# TO JAVA CONVERTER TODO TASK: Tuple variables are not converted by C# to Java Converter:
-                    Pair<Double, Double> asks = new Pair<Double, Double>(0.0, 0.0);
-//C# TO JAVA CONVERTER TODO TASK: Tuple variables are not converted by C# to Java Converter:
-                    Pair<Double, Double> bids = new Pair<Double, Double>(0.0, 0.0);
+                    pairs_data.get(p). Asks.add(new Pair<Double, Double>(
+                            asks_json.getJSONArray(i).getDouble(0),
+                            asks_json.getJSONArray(i).getDouble(1)));
 
-                    ArrayList<Object> a = ask.get(i).ToList();
-                    ArrayList<Object> b = bid.get(i).ToList();
-
-                    tangible.OutObject<Double> tempOut_Item1 = new tangible.OutObject<Double>();
-                    tangible.TryParseHelper.tryParseDouble(a.get(0).toString(), tempOut_Item1);
-                    asks.Item1 = tempOut_Item1.argValue;
-                    tangible.OutObject<Double> tempOut_Item2 = new tangible.OutObject<Double>();
-                    tangible.TryParseHelper.tryParseDouble(a.get(1).toString(), tempOut_Item2);
-                    asks.Item2 = tempOut_Item2.argValue;
-                    tangible.OutObject<Double> tempOut_Item12 = new tangible.OutObject<Double>();
-                    tangible.TryParseHelper.tryParseDouble(b.get(0).toString(), tempOut_Item12);
-                    bids.Item1 = tempOut_Item12.argValue;
-                    tangible.OutObject<Double> tempOut_Item22 = new tangible.OutObject<Double>();
-                    tangible.TryParseHelper.tryParseDouble(b.get(1).toString(), tempOut_Item22);
-                    bids.Item2 = tempOut_Item22.argValue;
-                    if (asks.Item1 == 0 || asks.Item2 == 0)
-                    {
-                        tangible.OutObject<Double> tempOut_Item13 = new tangible.OutObject<Double>();
-                        tangible.TryParseHelper.tryParseDouble(a.get(0).toString().replace('.', ','), tempOut_Item13);
-                        asks.Item1 = tempOut_Item13.argValue;
-                        tangible.OutObject<Double> tempOut_Item23 = new tangible.OutObject<Double>();
-                        tangible.TryParseHelper.tryParseDouble(a.get(1).toString().replace('.', ','), tempOut_Item23);
-                        asks.Item2 = tempOut_Item23.argValue;
-                        tangible.OutObject<Double> tempOut_Item14 = new tangible.OutObject<Double>();
-                        tangible.TryParseHelper.tryParseDouble(b.get(0).toString().replace('.', ','), tempOut_Item14);
-                        bids.Item1 = tempOut_Item14.argValue;
-                        tangible.OutObject<Double> tempOut_Item24 = new tangible.OutObject<Double>();
-                        tangible.TryParseHelper.tryParseDouble(b.get(1).toString().replace('.', ','), tempOut_Item24);
-                        bids.Item2 = tempOut_Item24.argValue;
-                    }
-
-                    pair_dic[p].Asks.Add(asks);
-                    pair_dic[p].Bids.Add(bids);
+                    pairs_data.get(p). Bids.add(new Pair<Double, Double>(
+                            bids_json.getJSONArray(i).getDouble(0),
+                            bids_json.getJSONArray(i).getDouble(1)));
                 }
 
             }
@@ -140,22 +110,43 @@ public class ExmoBot extends Bot {
         }
     }
 
+    protected void get_tickers(int depth) throws JSONException{
+        JSONObject ticker = null;
+        String answer = bot.Request("ticker", null);
+        try
+        {
+            ticker = new JSONObject(answer);
+        }
+        catch (Exception je){
+            System.out.print(je.toString());
+        }
+        for (String p : tradeable_coins.values())
+        {
+            try
+            {
+                if (!pairs_data.containsKey(p))
+                {
+                    pairs_data.put(p, new PairData());
+                }
+                JSONObject pair_json = ticker.getJSONObject(p);
+
+                pairs_data.get(p).exchagename = super.Name;
+                 pairs_data.get(p).pairname = p;
+                 pairs_data.get(p).depth = depth;
+                 pairs_data.get(p).lastprice = pair_json.getDouble("last_trade");
+                 pairs_data.get(p).volume = pair_json.getDouble("vol");;
+                 pairs_data.get(p).openingprice = -1;
+                 pairs_data.get(p).lowprice = pair_json.getDouble("low");
+                 pairs_data.get(p).hightprice = pair_json.getDouble("high");
+            }
+            catch (JSONException je){
+                ;
+            }
+        }
+    };
+
     public void reload_data()
     {
         reload_data(50);
-    }
-
-    @SuppressLint("HandlerLeak")
-    @Override
-    public void reload_data(final int depth) {
-
-        Thread th =  new Thread(
-                new Runnable() {
-                    public void run() {
-                        get_order_books(depth);
-                    }
-                }
-        );
-        th.start();
     }
 }
