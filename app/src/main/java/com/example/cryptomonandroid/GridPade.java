@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import java.util.Vector;
 
 
-public class GridPade extends Fragment {
+public abstract class GridPade extends Fragment {
     protected View root;
     protected TableLayout table;
     protected Vector<TableRow> rows;
@@ -23,7 +23,17 @@ public class GridPade extends Fragment {
         rows = new Vector<TableRow>();
     }
 
-    public void show_content(){
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        root = inflater.inflate(R.layout.costs, container, false);
+        return root;
+    }
+
+
+    public abstract void show_content();
+    /*{
         table = root.findViewById(R.id.table_costs);
         TableRow.LayoutParams params = new TableRow.LayoutParams();
         params.leftMargin = 10;
@@ -50,6 +60,7 @@ public class GridPade extends Fragment {
         }
 
     }
+     */
 }
 
 
