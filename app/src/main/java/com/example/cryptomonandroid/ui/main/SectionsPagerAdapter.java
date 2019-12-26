@@ -37,7 +37,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             if (pages[position] == null) {
                 if (position == 0) {
                     pages[position] = new Costs();
-                } else {
+                } else
+                if (position == 1) {
                     pages[position] = new Arbitrage();
                 }
             }

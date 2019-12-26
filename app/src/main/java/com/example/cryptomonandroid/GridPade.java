@@ -23,16 +23,8 @@ public abstract class GridPade extends Fragment {
         rows = new Vector<TableRow>();
     }
 
-    @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.costs, container, false);
-        return root;
-    }
 
-
-    public abstract void show_content();
+    protected abstract void show_content();
     /*{
         table = root.findViewById(R.id.table_costs);
         TableRow.LayoutParams params = new TableRow.LayoutParams();

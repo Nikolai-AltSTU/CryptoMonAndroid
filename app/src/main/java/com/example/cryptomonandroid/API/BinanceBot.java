@@ -19,7 +19,7 @@ public class BinanceBot extends Bot {
 
     public BinanceBot(){
 
-        Name = "BinanceBot";
+        Name = "Binance";
         Thread con =  new Thread(
 
                 new Runnable() {
