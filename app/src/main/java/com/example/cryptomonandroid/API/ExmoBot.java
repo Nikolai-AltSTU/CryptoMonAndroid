@@ -18,7 +18,12 @@ public class ExmoBot extends Bot {
             "ROOBEE", "DCR", "XTZ", "ZAG", "BTT", "VLX"};
 
     public ExmoBot(){
-        bot = new Exmo(" ", " ");
+        try {
+            bot = new Exmo(" ", " ");
+        }
+        catch (AndroidRuntimeException e){
+            ;
+        }
         this.Name = "Exmo";
 
         tradeable_coins = (HashMap<Pair<String, String>, String>) dictionary_of_pairs_name.clone();
@@ -57,6 +62,8 @@ public class ExmoBot extends Bot {
 
     @Override
     protected void get_order_books(int depth) throws JSONException {
+        if(bot == null)
+            return;
         HashMap<String, String> request_line = new HashMap<String, String>();
         request_line.put("pair", "");
 
@@ -73,12 +80,17 @@ public class ExmoBot extends Bot {
         catch (AndroidRuntimeException e){
             return;
         }
+
+        if(answer == null){
+            return;
+        }
+
         JSONObject order_book = null;
 
         try {
             order_book = new JSONObject(answer);
         }
-        catch (JSONException je){
+        catch (Exception je){
             System.out.print(je.toString());
         }
         for (String p : tradeable_coins.values())
@@ -118,6 +130,8 @@ public class ExmoBot extends Bot {
     }
 
     protected void get_tickers(int depth) throws JSONException{
+        if(bot == null)
+            return;
         JSONObject ticker = null;
         String answer;
         try {
@@ -126,6 +140,11 @@ public class ExmoBot extends Bot {
         catch (AndroidRuntimeException e){
             return;
         }
+
+        if(answer == null){
+            return;
+        }
+
         try
         {
             ticker = new JSONObject(answer);

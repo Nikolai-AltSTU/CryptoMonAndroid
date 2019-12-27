@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private TimerTask timerTask = null;
     protected Vector<Bot> bots; // = new Vector<Bot>();
     protected Vector<Pair<String, String>> pairs;
-
+    Double persent = 2.;
+    Double profit = 1.;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
                         pairs.add(new Pair<String, String>("TRX", "USD"));
 
                         for(Bot bot: bots){
+                            if(bot == null)
+                                continue;
                             bot.setPairs(pairs);
                             bot.reload_data(50);
                         }
@@ -86,20 +89,14 @@ public class MainActivity extends AppCompatActivity {
     protected void update(){
         if(flag) {
 
+
             ((Costs) sectionsPagerAdapter.getItem(0)).show_table(bots, pairs);
-            ((Arbitrage) sectionsPagerAdapter.getItem(1)).show_table(bots, pairs);
+            ((Arbitrage) sectionsPagerAdapter.getItem(1)).show_table(bots, pairs, persent, profit);
         }
     }
 
     public void ButtonClick(View view){
         flag = flag ^ true;
-        if(flag) {
-
-        }
-        else
-        {
-
-        }
     }
 
 }

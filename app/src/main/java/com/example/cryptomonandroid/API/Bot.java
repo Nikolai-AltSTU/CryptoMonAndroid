@@ -33,6 +33,7 @@ public abstract class Bot {
 
     public void reload_data(final int depth) {
 
+
         Thread orderBook =  new Thread(
                 new Runnable() {
                     public void run() {

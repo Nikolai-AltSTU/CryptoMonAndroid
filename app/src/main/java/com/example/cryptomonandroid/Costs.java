@@ -23,6 +23,7 @@ import java.util.Vector;
 import com.example.cryptomonandroid.API.BinanceBot;
 import com.example.cryptomonandroid.API.Bot;
 import com.example.cryptomonandroid.API.ExmoBot;
+import com.example.cryptomonandroid.API.PairData;
 
 import org.json.JSONException;
 
@@ -89,8 +90,13 @@ public class Costs extends GridPade {
 
                 // котировки
                 for (int j = 0; j < bots.size(); j++) {
+                    PairData p = bots.get(j).get_pair_info(pairs.get(i));
+
                     TextView tt = new TextView(this.rows.elementAt(i + 1).getContext());
-                    tt.setText(bots.get(j).get_pair_info(pairs.get(i)).lastprice.toString());
+                    if(p != null)
+                        tt.setText(p.lastprice.toString());
+                    else
+                        tt.setText("недоступно");
                     rows.elementAt(i + 1).addView(tt, params);
                 }
                 table.addView(rows.elementAt(i + 1));

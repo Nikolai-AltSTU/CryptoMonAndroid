@@ -1,5 +1,6 @@
 package com.example.cryptomonandroid.API;
 
+import android.util.AndroidRuntimeException;
 import android.util.Pair;
 
 import com.binance.api.client.domain.general.ExchangeInfo;
@@ -15,7 +16,7 @@ import java.util.List;
 public class BinanceBot extends Bot {
 
     BinanceApiClientFactory factory;
-    BinanceApiRestClient client;
+    BinanceApiRestClient client = null;
 
     public BinanceBot(){
 
@@ -36,8 +37,13 @@ public class BinanceBot extends Bot {
     }
 
     private void connect() {
-        factory = BinanceApiClientFactory.newInstance("", "");
-        client = factory.newRestClient();
+        try {
+            factory = BinanceApiClientFactory.newInstance("", "");
+            client = factory.newRestClient();
+        }
+        catch (AndroidRuntimeException e){
+            ;
+        }
         set_dictionary_of_pairs_name();
     }
 
@@ -774,6 +780,8 @@ public class BinanceBot extends Bot {
     @Override
     protected void get_order_books(int depth) {
 
+        if(client == null)
+            return;
         for (String p : tradeable_coins.values()) {
             try {
                 if (!pairs_data.containsKey(p)) {
@@ -799,6 +807,8 @@ public class BinanceBot extends Bot {
 
     @Override
     protected void get_tickers(int depth){
+        if(client == null)
+            return;
         try {
             Thread.sleep(2000);
         } catch (Exception e) {
