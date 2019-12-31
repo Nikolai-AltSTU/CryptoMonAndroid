@@ -33,6 +33,7 @@ public class Arbitrage extends GridPade {
         if(table == null)
             table = root.findViewById(R.id.table_arbitrage);
         find_arbitrage(persent, profit);
+        //table.removeAllViews();
         show_content();
     }
 
@@ -90,7 +91,7 @@ public class Arbitrage extends GridPade {
 
     private void find_arbitrage(Double persent, Double profit){
 
-
+        arbitr_situations.clear();
         persent = persent / 100;
 
         for(int i = 0; i < bots.size(); i++)
@@ -112,7 +113,7 @@ public class Arbitrage extends GridPade {
                         Vector<Pair<Double, Double>> Bids;
                         try
                         {
-                            Bids = bots.get(i).get_pair_info(p).Bids;
+                            Bids = bots.get(j).get_pair_info(p).Bids;
                         }
                         catch (Exception e)
                         {
@@ -120,7 +121,7 @@ public class Arbitrage extends GridPade {
                         }
                         // price - 0
                         // quantity - 1
-                        if (Bids.size() > 0 && (Bids.get(0).first / Asks.get(0).first) > 1 + persent)
+                        if (Bids.size() > 0 && ((Bids.get(0).first / Asks.get(0).first) > (1 + persent) ))
                         {
                             double max_persent = 0;
                             double max_volume = 0;
@@ -177,13 +178,6 @@ public class Arbitrage extends GridPade {
                             arbitr_situations.lastElement().persent = trade_persent * 100;
                             arbitr_situations.lastElement().profit = Profit;
 
-                            /*
-                            Arbitrage_situations_Grid.Rows[Arbitrage_situations_Grid.Rows.Count - 1].Cells["Pair"].Value = p.Item1 + " / " + p.Item2;
-                            Arbitrage_situations_Grid.Rows[Arbitrage_situations_Grid.Rows.Count - 1].Cells["Buy"].Value = bots[i].Name + " " + Asks[A].price + " * " + Count(ref Asks, A);
-                            Arbitrage_situations_Grid.Rows[Arbitrage_situations_Grid.Rows.Count - 1].Cells["Sell"].Value = bots[j].Name + " " + Bids[B].price + " * " + Count(ref Bids, B);
-                            Arbitrage_situations_Grid.Rows[Arbitrage_situations_Grid.Rows.Count - 1].Cells["Persent"].Value = trade_persent * 100 + "%";
-                            Arbitrage_situations_Grid.Rows[Arbitrage_situations_Grid.Rows.Count - 1].Cells["Profit"].Value = Profit;
-                             */
                         }
 
                     }
@@ -199,7 +193,15 @@ public class Arbitrage extends GridPade {
         TableRow.LayoutParams params = new TableRow.LayoutParams();
         params.leftMargin = 25;
         params.topMargin = 15;
-
+        params.width = 200;
+        TableRow.LayoutParams params_pair = new TableRow.LayoutParams();
+        params_pair.leftMargin = 25;
+        params_pair.topMargin = 15;
+        params_pair.width = 100;
+        table.removeAllViews();
+        TableRow.LayoutParams row_params = new TableRow.LayoutParams();
+        row_params.leftMargin = 5;
+        row_params.topMargin = 15;
         table.removeAllViews();
         rows.clear();
 
@@ -208,7 +210,7 @@ public class Arbitrage extends GridPade {
 
         TextView t1 = new TextView(this.rows.elementAt(0).getContext());
         t1.setText("Пара ");
-        rows.elementAt(0).addView(t1, params);
+        rows.elementAt(0).addView(t1, params_pair);
         TextView t2 = new TextView(this.rows.elementAt(0).getContext());
         t2.setText("Купить ");
         rows.elementAt(0).addView(t2, params);
@@ -233,7 +235,7 @@ public class Arbitrage extends GridPade {
                 // название
                 TextView pair_name = new TextView(this.rows.elementAt(i + 1).getContext());
                 pair_name.setText(arbitr_situations.get(i).pair.first + "/" + arbitr_situations.get(i).pair.second);
-                rows.elementAt(i + 1).addView(pair_name, params);
+                rows.elementAt(i + 1).addView(pair_name, params_pair);
 
                 // buy
                 TextView buy_tv = new TextView(this.rows.elementAt(i + 1).getContext());
@@ -252,7 +254,7 @@ public class Arbitrage extends GridPade {
 
                 // profit
                 TextView profit_tv = new TextView(this.rows.elementAt(i + 1).getContext());
-                profit_tv.setText(arbitr_situations.get(i).profit.toString());
+                profit_tv.setText(" $ " + arbitr_situations.get(i).profit.toString());
                 rows.elementAt(i + 1).addView(profit_tv, params);
 
                 table.addView(rows.elementAt(i + 1));

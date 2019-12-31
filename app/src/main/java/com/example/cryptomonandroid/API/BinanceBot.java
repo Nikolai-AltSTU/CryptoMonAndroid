@@ -789,10 +789,10 @@ public class BinanceBot extends Bot {
                 }
 
                 OrderBook orderBook = client.getOrderBook(p, depth);
+                if(orderBook == null) continue;
                 pairs_data.get(p).Asks.clear();
                 pairs_data.get(p).Bids.clear();
                 for (int i = 0; i < depth; i++) {
-
 
                     pairs_data.get(p).Asks.add(new Pair<Double, Double>(Double.parseDouble(orderBook.getAsks().get(i).getPrice()),
                             Double.parseDouble(orderBook.getAsks().get(0).getQty())));

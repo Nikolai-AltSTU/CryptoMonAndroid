@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private TimerTask timerTask = null;
     protected Vector<Bot> bots; // = new Vector<Bot>();
     protected Vector<Pair<String, String>> pairs;
-    Double persent = 2.;
-    Double profit = 1.;
+    Double persent = 0.0;
+    Double profit = 0.1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
