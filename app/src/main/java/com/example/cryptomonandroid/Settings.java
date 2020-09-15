@@ -18,6 +18,8 @@ import java.util.Vector;
 
 public class Settings extends GridPade {
 
+
+    Vector<Bot> bots = new Vector<Bot>(); // Заглушка для того чтобы код собирался
     public String bots_names[]; // имена ботов
     public String all_bots_names[] = new String[]{"exmo", "binance"}; // имена ботов
     public Vector<Pair<String, String>> pairs;
